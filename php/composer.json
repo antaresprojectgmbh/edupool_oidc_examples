@@ -1,0 +1,7 @@
+{
+    "require": {
+        "league/oauth2-client": "^2.7",
+        "zendframework/zend-diactoros": "^1.3",
+        "league/route": "^5.1"
+    }
+}
