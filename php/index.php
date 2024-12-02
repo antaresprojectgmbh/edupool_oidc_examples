@@ -9,13 +9,15 @@ use Psr\Http\Message\ServerRequestInterface;
 
 session_start();
 
+// the urls can be found here: https://oidc.edupool.cloud/.well-known/openid-configuration
+
 $provider = new GenericProvider([
     'clientId' => 'yourClientID',
     'clientSecret' => 'yourClientSecret',
     'redirectUri' => 'http://127.0.0.1:9010/callback',
     'urlAuthorize' => 'https://oidc.edupool.cloud/oauth2/auth',
     'urlAccessToken' => 'https://oidc.edupool.cloud/oauth2/token',
-    'urlResourceOwnerDetails' => 'https://oidc.edupool.cloud/oauth2/userinfo',
+    'urlResourceOwnerDetails' => 'https://oidc.edupool.cloud/userinfo',
     'scopes' => 'openid offline profile antares.context'
 ]);
 
