@@ -24,3 +24,11 @@ The script will be accessible at [http://127.0.0.1:9010](http://127.0.0.1:9010/)
 2.  Click the "Log In" link.
 3.  You will be redirected to the EduPool OIDC server. Log in with your credentials.
 4.  After successful authentication, you will be redirected back to the client application, and your user information will be displayed on the screen.
+
+## Optional Hub Shortcuts
+
+You can optionally pass `land` or `context` during login initiation. If omitted, the default login behavior stays unchanged.
+
+- `http://127.0.0.1:9010/login` → default behavior
+- `http://127.0.0.1:9010/login?land=nrw` → preselect land in Hub
+- `http://127.0.0.1:9010/login?context=hh/HH` → jump directly to a specific location login in Hub

@@ -54,7 +54,9 @@ func handleMain(w http.ResponseWriter, r *http.Request) {
 	// just a super simple page to initiate the login.
 	var htmlIndex = `<html>
 <body>
-	<a href="/login">Log In</a>
+	<a href="/login">Log In (default)</a><br>
+	<a href="/login?land=nrw">Log In (optional shortcut: land=nrw)</a><br>
+	<a href="/login?context=hh/HH">Log In (optional shortcut: context=hh/HH)</a>
 </body>
 </html>`
 
@@ -62,8 +64,21 @@ func handleMain(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleLogin(w http.ResponseWriter, r *http.Request) {
-	// initiate the login and redirect to the ID-Provieders AuthCode URL
-	http.Redirect(w, r, oauth2Config.AuthCodeURL(oauthStateString), http.StatusFound)
+	// Optional shortcut params for Hub preselection.
+	// If omitted, default OIDC login behavior is unchanged.
+	land := r.URL.Query().Get("land")
+	contextParam := r.URL.Query().Get("context")
+
+	authOpts := []oauth2.AuthCodeOption{}
+	if land != "" {
+		authOpts = append(authOpts, oauth2.SetAuthURLParam("land", land))
+	}
+	if contextParam != "" {
+		authOpts = append(authOpts, oauth2.SetAuthURLParam("context", contextParam))
+	}
+
+	// initiate the login and redirect to the ID-Providers AuthCode URL
+	http.Redirect(w, r, oauth2Config.AuthCodeURL(oauthStateString, authOpts...), http.StatusFound)
 }
 
 // this handler (http://127.0.0.1:9010/callback) is called after a successfull login.

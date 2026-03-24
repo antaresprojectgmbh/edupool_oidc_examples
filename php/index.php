@@ -23,12 +23,28 @@ $provider = new GenericProvider([
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) use ($provider) {
     $r->addRoute('GET', '/', function (ServerRequestInterface $request, ResponseInterface $response) {
-        $response->getBody()->write('<html><body><a href="/login">Log In</a></body></html>');
+        $response->getBody()->write('<html><body>'
+            . '<a href="/login">Log In (default)</a><br>'
+            . '<a href="/login?land=nrw">Log In (optional shortcut: land=nrw)</a><br>'
+            . '<a href="/login?context=hh/HH">Log In (optional shortcut: context=hh/HH)</a>'
+            . '</body></html>');
         return $response;
     });
 
     $r->addRoute('GET', '/login', function (ServerRequestInterface $request, ResponseInterface $response) use ($provider) {
-        $authorizationUrl = $provider->getAuthorizationUrl();
+        $queryParams = $request->getQueryParams();
+        $authOptions = [];
+
+        // Optional shortcut params for Hub preselection.
+        // If omitted, default OIDC login behavior is unchanged.
+        if (!empty($queryParams['land'])) {
+            $authOptions['land'] = $queryParams['land'];
+        }
+        if (!empty($queryParams['context'])) {
+            $authOptions['context'] = $queryParams['context'];
+        }
+
+        $authorizationUrl = $provider->getAuthorizationUrl($authOptions);
         $_SESSION['oauth2state'] = $provider->getState();
         header('Location: ' . $authorizationUrl);
         exit();

@@ -22,7 +22,9 @@ const oauthStateString = 'peofjkwfjwieufhiu';
     const htmlIndex = `
       <html>
       <body>
-        <a href="/login">Log In</a>
+        <a href="/login">Log In (default)</a><br>
+        <a href="/login?land=nrw">Log In (optional shortcut: land=nrw)</a><br>
+        <a href="/login?context=hh/HH">Log In (optional shortcut: context=hh/HH)</a>
       </body>
       </html>
     `;
@@ -30,10 +32,21 @@ const oauthStateString = 'peofjkwfjwieufhiu';
   });
 
   app.get('/login', (req, res) => {
-    const authUrl = client.authorizationUrl({
+    const authParams = {
       scope: scopes,
       state: oauthStateString,
-    });
+    };
+
+    // Optional shortcut params for Hub preselection.
+    // If omitted, default OIDC login behavior is unchanged.
+    if (req.query.land) {
+      authParams.land = req.query.land;
+    }
+    if (req.query.context) {
+      authParams.context = req.query.context;
+    }
+
+    const authUrl = client.authorizationUrl(authParams);
     res.redirect(authUrl);
   });
 
