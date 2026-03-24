@@ -71,8 +71,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     });
 });
 
-$request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
-$response = new Zend\Diactoros\Response();
+$request = Laminas\Diactoros\ServerRequestFactory::fromGlobals();
+$response = new Laminas\Diactoros\Response();
 
 $routeInfo = $dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
 
@@ -84,5 +84,5 @@ switch ($routeInfo[0]) {
         $response = $response->withStatus(404);
 }
 
-$emitter = new Zend\Diactoros\Response\SapiEmitter();
+$emitter = new Laminas\Diactoros\Response\SapiEmitter();
 $emitter->emit($response);
