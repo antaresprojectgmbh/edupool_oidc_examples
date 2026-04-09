@@ -8,6 +8,6 @@ require (
 )
 
 require (
-	github.com/go-jose/go-jose/v3 v3.0.4 // indirect
+	github.com/go-jose/go-jose/v3 v3.0.5 // indirect
 	golang.org/x/crypto v0.45.0 // indirect
 )
