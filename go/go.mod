@@ -1,6 +1,6 @@
 module oidc
 
-go 1.24.0
+go 1.25.0
 
 require (
 	github.com/coreos/go-oidc/v3 v3.5.0
@@ -9,5 +9,5 @@ require (
 
 require (
 	github.com/go-jose/go-jose/v3 v3.0.5 // indirect
-	golang.org/x/crypto v0.45.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
 )
